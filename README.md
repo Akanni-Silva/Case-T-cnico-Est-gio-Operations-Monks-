@@ -2,7 +2,7 @@
 
 ## 📌 Visão Geral
 
-Este projeto tem como objetivo realizar a **auditoria, limpeza e análise de dados de oportunidades comerciais**, simulando um cenário real de atuação em RevOps.
+Este projeto apresenta a **auditoria, limpeza e análise de dados** de oportunidades comerciais, simulando desafios reais enfrentados em operações de Revenue Operations (RevOps).
 
 A base fornecida contém **413 registros em nível de produto**, o que exige tratamento para consolidar corretamente as oportunidades e garantir análises confiáveis.
 
