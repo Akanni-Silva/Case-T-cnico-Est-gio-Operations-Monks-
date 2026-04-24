@@ -1,71 +1,230 @@
-# Case Monks - Auditoria de Qualidade de Dados
+# 📊 Case Técnico — Operations (Monks)
 
-Este projeto implementa uma auditoria sobre a planilha `opps_corrupted.xlsx`, identificando problemas de qualidade, aplicando correcoes e gerando entregaveis finais para analise.
+## 📌 Visão Geral
 
-## Objetivo
+Este projeto tem como objetivo realizar a **auditoria, limpeza e análise de dados de oportunidades comerciais**, simulando um cenário real de atuação em RevOps.
 
-O notebook [`notebooks/audit.ipynb`](./notebooks/audit.ipynb) foi criado para:
+A base fornecida contém **413 registros em nível de produto**, o que exige tratamento para consolidar corretamente as oportunidades e garantir análises confiáveis.
 
-- identificar problemas de qualidade na planilha original
-- corrigir os registros dentro do escopo da analise
-- gerar uma versao limpa da planilha
-- produzir um relatorio HTML em linguagem natural, voltado para publico nao tecnico
+---
 
-## Estrutura do projeto
+## 🎯 Objetivo
 
-```text
-caseMonks/
-|-- data/
-|   `-- opps_corrupted.xlsx
-|-- notebooks/
-|   `-- audit.ipynb
-|-- output/
-|   |-- opps_corrigido.xlsx
-|   `-- relatorio_erros.html
-`-- README.md
-```
+- Identificar problemas de qualidade nos dados
+- Corrigir inconsistências estruturais e semânticas
+- Garantir confiabilidade da base
+- Gerar insights relevantes para o negócio
 
-## Regras aplicadas na auditoria
+---
 
-O notebook segue as orientacoes do case:
+## ⚙️ Abordagem
 
-- considera apenas oportunidades com `Type` em:
-  - `Project - Competitive`
-  - `Project - Not Competitive`
-  - `Change Order/Upsell`
-- respeita a granularidade por produto, evitando contar linhas como se fossem oportunidades unicas
-- corrige inconsistencias em `Stage`, `Lead_Source` e `Lead_Office`
-- cria a coluna `Lead_Source_Category` com a taxonomia pedida
-- recalcula `Amount` com base na soma de `Total_Product_Amount` quando houver divergencia
-- padroniza `Amount` e `Total_Product_Amount` como `float`
-- preserva oportunidades em estagios iniciais sem valor/produto como casos esperados
+### 🧪 1. Preparação do ambiente
 
-## Entregaveis
+Foram utilizadas as seguintes bibliotecas:
 
-Ao executar o notebook, sao gerados:
+- `pandas` → manipulação de dados
+- `numpy` → suporte numérico
+- `matplotlib` / `seaborn` → visualização
+- `openpyxl` → leitura/escrita Excel
 
-- [`output/opps_corrigido.xlsx`](./output/opps_corrigido.xlsx)
-- [`output/relatorio_erros.html`](./output/relatorio_erros.html)
+O desenvolvimento foi realizado em **Jupyter Notebook**, permitindo análise iterativa e validação contínua.
 
-## Como executar
+---
 
-1. Ative o ambiente virtual.
-2. Abra e execute o notebook `notebooks/audit.ipynb`.
-3. Os arquivos finais serao gerados na pasta `output/`.
+### 🧠 2. Planejamento
 
-Se preferir executar o conteudo do notebook por script, basta rodar as celulas com Python em um ambiente que tenha `pandas` e suporte a leitura/escrita de Excel.
+Antes da implementação:
 
-## Saida esperada
+- Estudei boas práticas atuais de **Data Cleaning**
+- Estruturei o problema em **etapas menores**
+- Defini regras baseadas no contexto do case
 
-O relatorio HTML inclui:
+---
 
-- resumo executivo
-- quantidade de problemas por categoria
-- exemplos reais encontrados na base
-- explicacao simples do problema
-- descricao do que foi corrigido
+### 🤖 3. Uso de IA
 
-## Observacoes
+A IA foi utilizada como **ferramenta de apoio**, não como solução final:
 
-- A pasta `output/` contem artefatos gerados automaticamente.
-- A pasta `.venv/` e arquivos auxiliares do Jupyter nao fazem parte da logica do projeto.
+- Estruturação inicial do código
+- Sugestão de abordagens
+- Comparação entre diferentes soluções
+
+✔️ Todas as saídas foram:
+
+- validadas manualmente
+- testadas com dados reais
+- ajustadas conforme necessário
+
+---
+
+## 🔍 Auditoria dos Dados
+
+Foram identificados diversos problemas de qualidade:
+
+### 🔁 Duplicação de registros
+
+- A base está em nível de produto
+- Uma mesma oportunidade aparece em múltiplas linhas
+
+👉 Impacto:
+
+- Superestimação do número de oportunidades
+- Distorção de métricas de receita
+
+---
+
+### 💰 Divergência de valores
+
+- Inconsistência entre:
+  - `Amount`
+  - soma de `Total_Product_Amount`
+
+👉 Regra aplicada:
+
+> A soma dos produtos foi considerada como fonte da verdade
+
+---
+
+### 🔢 Problemas em dados numéricos
+
+- Valores armazenados como texto
+- Formatação inconsistente
+
+👉 Exemplo:
+
+- números com caracteres inválidos
+
+---
+
+### 🔤 Inconsistência em campos categóricos
+
+Foram encontrados erros de digitação e variações como:
+
+- `Closed Wonn`
+- `Clossed Won`
+
+👉 Impacto:
+
+- Quebra de agrupamentos
+- Erros em análises por estágio
+
+---
+
+### 🚫 Dados fora do escopo
+
+- Registros com `Type` não permitido pelo case
+
+👉 Ação:
+
+- Remoção desses registros
+
+---
+
+## 🧼 Limpeza e Padronização
+
+As seguintes ações foram realizadas:
+
+- Conversão de `Amount` e `Total_Product_Amount` para `float`
+- Correção de valores inconsistentes
+- Padronização de textos (trim + normalização)
+- Correção de erros de grafia
+- Criação da coluna `Lead_Source_Category`
+- Remoção de dados fora do escopo
+- Consolidação da base em nível de oportunidade
+
+---
+
+## ✅ Validação
+
+Após a limpeza, foram validados:
+
+- Consistência dos valores financeiros
+- Integridade das categorias
+- Estrutura da base final
+- Coerência das análises
+
+---
+
+## 📊 Análise dos Dados
+
+Com a base tratada, foram gerados insights como:
+
+### 📈 Receita ao longo do tempo (MoM)
+
+- Identificação de concentração de receita em períodos específicos
+
+---
+
+### 🎯 Performance por Lead Source
+
+- Diferença entre volume de leads e taxa de conversão
+
+---
+
+### 🏆 Top oportunidades e clientes
+
+- Identificação de oportunidades de alto valor
+- Análise de concentração de receita
+
+---
+
+### 🔄 Pipeline
+
+- Distribuição por estágio
+- Identificação de possíveis gargalos
+
+---
+
+### ⏱️ Ciclo de vendas
+
+- Tempo médio entre criação e fechamento
+- Diferença entre escritórios
+
+---
+
+## 📦 Entregas
+
+- `opps_corrigido.xlsx`  
+  → Base limpa e confiável
+
+- `relatorio_erros.html`  
+  → Detalhamento dos problemas encontrados
+
+- `analise.html`  
+  → Dashboard com visualizações e insights
+
+- `apresentacao.pdf`  
+  → Síntese executiva para stakeholders
+
+---
+
+## 💡 Principais Aprendizados
+
+- Dados brutos raramente estão prontos para análise
+- Pequenos erros (ex: digitação) geram grande impacto
+- A etapa de limpeza é crítica em qualquer análise
+- IA acelera o processo, mas exige validação rigorosa
+
+---
+
+## 🚀 Recomendações
+
+Para evitar problemas futuros:
+
+- Implementar validações no CRM (campos obrigatórios)
+- Utilizar listas controladas (dropdowns)
+- Criar alertas para inconsistência de valores
+- Monitorar qualidade dos dados continuamente
+
+---
+
+## 🏁 Conclusão
+
+Este projeto reforça a importância de unir:
+
+- engenharia de dados
+- análise crítica
+- entendimento de negócio
+
+para transformar dados inconsistentes em **insights confiáveis e acionáveis**.
