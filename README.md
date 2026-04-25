@@ -2,9 +2,9 @@
 
 ## 📌 Visão Geral
 
-Este projeto apresenta a **auditoria, limpeza e análise de dados** de oportunidades comerciais, simulando desafios reais enfrentados em operações de Revenue Operations (RevOps).
+Este projeto apresenta a **auditoria, limpeza e análise de dados de oportunidades comerciais**, simulando um cenário real de atuação em **Revenue Operations (RevOps)**.
 
-A base fornecida contém **413 registros em nível de produto**, o que exige tratamento para consolidar corretamente as oportunidades e garantir análises confiáveis.
+A base original contém **413 registros em nível de produto**, o que exige tratamento para consolidação correta das oportunidades e geração de análises confiáveis.
 
 ---
 
@@ -19,6 +19,8 @@ A base fornecida contém **413 registros em nível de produto**, o que exige tra
 
 ## ⚙️ Abordagem
 
+A resolução do problema foi estruturada em etapas claras, combinando boas práticas de **Data Cleaning**, análise exploratória e validação contínua.
+
 ### 🧪 1. Preparação do ambiente
 
 Foram utilizadas as seguintes bibliotecas:
@@ -26,9 +28,9 @@ Foram utilizadas as seguintes bibliotecas:
 - `pandas` → manipulação de dados
 - `numpy` → suporte numérico
 - `matplotlib` / `seaborn` → visualização
-- `openpyxl` → leitura/escrita Excel
+- `openpyxl` → leitura/escrita de Excel
 
-O desenvolvimento foi realizado em **Jupyter Notebook**, permitindo análise iterativa e validação contínua.
+O desenvolvimento foi realizado em **Jupyter Notebook**, permitindo análise iterativa.
 
 ---
 
@@ -36,51 +38,49 @@ O desenvolvimento foi realizado em **Jupyter Notebook**, permitindo análise ite
 
 Antes da implementação:
 
-- Estudei boas práticas atuais de **Data Cleaning**
-- Estruturei o problema em **etapas menores**
-- Defini regras baseadas no contexto do case
+- Estudo de boas práticas de limpeza de dados
+- Quebra do problema em etapas menores
+- Definição de regras com base no contexto do case
 
 ---
 
 ### 🤖 3. Uso de IA
 
-A IA foi utilizada como **ferramenta de apoio**, não como solução final:
+A IA foi utilizada como ferramenta de apoio para:
 
 - Estruturação inicial do código
 - Sugestão de abordagens
-- Comparação entre diferentes soluções
+- Comparação entre soluções
 
-✔️ Todas as saídas foram:
+Todas as saídas foram:
 
-- validadas manualmente
-- testadas com dados reais
-- ajustadas conforme necessário
+- Validadas manualmente
+- Testadas com dados reais
+- Ajustadas conforme necessário
 
 ---
 
 ## 🔍 Auditoria dos Dados
 
-Foram identificados diversos problemas de qualidade:
+Durante a análise, foram identificados problemas relevantes:
 
 ### 🔁 Duplicação de registros
 
-- A base está em nível de produto
+- Dados em nível de produto (não oportunidade)
 - Uma mesma oportunidade aparece em múltiplas linhas
 
-👉 Impacto:
+**Impacto:**
 
-- Superestimação do número de oportunidades
-- Distorção de métricas de receita
+- Superestimação de oportunidades
+- Distorção de métricas
 
 ---
 
 ### 💰 Divergência de valores
 
-- Inconsistência entre:
-  - `Amount`
-  - soma de `Total_Product_Amount`
+- Inconsistência entre `Amount` e soma de `Total_Product_Amount`
 
-👉 Regra aplicada:
+**Regra aplicada:**
 
 > A soma dos produtos foi considerada como fonte da verdade
 
@@ -91,43 +91,39 @@ Foram identificados diversos problemas de qualidade:
 - Valores armazenados como texto
 - Formatação inconsistente
 
-👉 Exemplo:
-
-- números com caracteres inválidos
-
 ---
 
 ### 🔤 Inconsistência em campos categóricos
 
-Foram encontrados erros de digitação e variações como:
+Exemplos:
 
 - `Closed Wonn`
 - `Clossed Won`
 
-👉 Impacto:
+**Impacto:**
 
 - Quebra de agrupamentos
-- Erros em análises por estágio
+- Erros analíticos
 
 ---
 
 ### 🚫 Dados fora do escopo
 
-- Registros com `Type` não permitido pelo case
+- Registros com `Type` inválido para o case
 
-👉 Ação:
+**Ação:**
 
-- Remoção desses registros
+- Remoção dos dados
 
 ---
 
 ## 🧼 Limpeza e Padronização
 
-As seguintes ações foram realizadas:
+Foram aplicadas as seguintes transformações:
 
 - Conversão de `Amount` e `Total_Product_Amount` para `float`
-- Correção de valores inconsistentes
-- Padronização de textos (trim + normalização)
+- Correção de inconsistências financeiras
+- Padronização textual (trim + normalização)
 - Correção de erros de grafia
 - Criação da coluna `Lead_Source_Category`
 - Remoção de dados fora do escopo
@@ -154,77 +150,38 @@ Com a base tratada, foram gerados insights como:
 
 - Identificação de concentração de receita em períodos específicos
 
----
-
 ### 🎯 Performance por Lead Source
 
-- Diferença entre volume de leads e taxa de conversão
-
----
+- Comparação entre volume de leads e conversão
 
 ### 🏆 Top oportunidades e clientes
 
-- Identificação de oportunidades de alto valor
-- Análise de concentração de receita
+- Identificação de maiores contribuintes de receita
 
----
-
-### 🔄 Pipeline
+### 🔄 Pipeline de vendas
 
 - Distribuição por estágio
-- Identificação de possíveis gargalos
-
----
+- Identificação de gargalos
 
 ### ⏱️ Ciclo de vendas
 
 - Tempo médio entre criação e fechamento
-- Diferença entre escritórios
+- Diferenças entre escritórios
 
 ---
 
-## 📦 Entregas
+## 📦 Estrutura do Projeto
 
-- `opps_corrigido.xlsx`  
-  → Base limpa e confiável
-
-- `relatorio_erros.html`  
-  → Detalhamento dos problemas encontrados
-
-- `analise.html`  
-  → Dashboard com visualizações e insights
-
-- `apresentacao.pdf`  
-  → Síntese executiva para stakeholders
-
----
-
-## 💡 Principais Aprendizados
-
-- Dados brutos raramente estão prontos para análise
-- Pequenos erros (ex: digitação) geram grande impacto
-- A etapa de limpeza é crítica em qualquer análise
-- IA acelera o processo, mas exige validação rigorosa
-
----
-
-## 🚀 Recomendações
-
-Para evitar problemas futuros:
-
-- Implementar validações no CRM (campos obrigatórios)
-- Utilizar listas controladas (dropdowns)
-- Criar alertas para inconsistência de valores
-- Monitorar qualidade dos dados continuamente
-
----
-
-## 🏁 Conclusão
-
-Este projeto reforça a importância de unir:
-
-- engenharia de dados
-- análise crítica
-- entendimento de negócio
-
-para transformar dados inconsistentes em **insights confiáveis e acionáveis**.
+```text
+caseMonks/
+|-- data/
+|   └── opps_corrupted.xlsx
+|-- notebooks/
+|   └── audit.ipynb
+|-- output/
+|   ├── opps_corrigido.xlsx
+|   └── relatorio_erros.html
+|-- insights/
+|   └── analise.html
+└── README.md
+```
